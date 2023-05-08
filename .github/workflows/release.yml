@@ -67,13 +67,13 @@ jobs:
         id: changelog
         uses: release-flow/keep-a-changelog-action/get-release-info@v1
 
-      - name: Deploy package
-        if: ${{ inputs.central }}
-        run: mvn --batch-mode deploy -Prelease
-        env:
-          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+#      - name: Deploy package
+#        if: ${{ inputs.central }}
+#        run: mvn --batch-mode deploy -Prelease
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+#          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Commit and push release
         if: ${{ inputs.push }}
