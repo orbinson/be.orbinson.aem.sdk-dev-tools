@@ -53,7 +53,7 @@ public class DisableAssetWorkflowsHook implements InstallHook {
                     setAssetWorkflowsStatus(context.getSession(), context.getPackage().getProperties(), true);
                     break;
             }
-        } catch (RepositoryException e) {
+        } catch (Exception e) {
             log.error("Could not set the asset workflows status, skipping the install hook", e);
         }
     }
