@@ -47,15 +47,23 @@ public class DisableAssetWorkflowsHook implements InstallHook {
         try {
             switch (context.getPhase()) {
                 case PREPARE:
-                    setAssetWorkflowsStatus(context.getSession(), context.getPackage().getProperties(), false);
+                    disableAssetWorkflowsStatus(context.getSession(), context.getPackage().getProperties());
                     break;
                 case END:
-                    setAssetWorkflowsStatus(context.getSession(), context.getPackage().getProperties(), true);
+                    enableAssetWorkflowsStatus(context.getSession(), context.getPackage().getProperties());
                     break;
             }
         } catch (Exception e) {
             log.error("Could not set the asset workflows status, skipping the install hook", e);
         }
+    }
+
+    private void disableAssetWorkflowsStatus(Session session, PackageProperties packageProperties) throws RepositoryException {
+        setAssetWorkflowsStatus(session, packageProperties, false);
+    }
+
+    private void enableAssetWorkflowsStatus(Session session, PackageProperties packageProperties) throws RepositoryException {
+        setAssetWorkflowsStatus(session, packageProperties, true);
     }
 
     private void setAssetWorkflowsStatus(Session session, PackageProperties packageProperties, boolean enabled) throws RepositoryException {
@@ -86,9 +94,22 @@ public class DisableAssetWorkflowsHook implements InstallHook {
 
     void setWorkflowStatus(Session session, String nodePath, boolean enabled) throws RepositoryException {
         if (session.nodeExists(nodePath)) {
-            log.debug("Setting workflow <{}> to enabled <{}>", nodePath, enabled);
-            Node node = session.getNode(nodePath);
-            node.setProperty("enabled", enabled);
+            if (hasCapabilityToEdit(session, nodePath)) {
+                log.debug("Setting workflow <{}> to enabled <{}>", nodePath, enabled);
+                Node node = session.getNode(nodePath);
+                node.setProperty("enabled", enabled);
+            } else {
+                log.debug("Skipping workflow <{}> to enabled <{}> because in immutable node store", nodePath, enabled);
+            }
+        }
+    }
+
+    private boolean hasCapabilityToEdit(Session session, String nodePath) throws RepositoryException {
+        if (nodePath.startsWith("/apps") || nodePath.startsWith("/libs")) {
+            Node appsNode = session.getNode("/apps");
+            return session.hasCapability("addNode", appsNode, new Object[]{"nt:folder"});
+        } else {
+            return true;
         }
     }
 }
