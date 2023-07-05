@@ -5,6 +5,8 @@ import org.apache.jackrabbit.vault.packaging.InstallContext;
 import org.apache.jackrabbit.vault.packaging.InstallHook;
 import org.apache.jackrabbit.vault.packaging.PackageException;
 import org.apache.jackrabbit.vault.packaging.PackageProperties;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,7 +108,7 @@ public class DisableAssetWorkflowsHook implements InstallHook {
 
     private boolean hasCapabilityToEdit(Session session, String nodePath) throws RepositoryException {
         if (nodePath.startsWith("/apps") || nodePath.startsWith("/libs")) {
-            Node appsNode = session.getNode("/apps");
+            Node appsNode = session.getNode("/libs");
             return session.hasCapability("addNode", appsNode, new Object[]{"nt:folder"});
         } else {
             return true;
