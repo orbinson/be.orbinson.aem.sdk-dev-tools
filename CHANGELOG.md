@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.3] - 2023-07-05
+
 ## [1.0.2] - 2023-05-18
 
 ## [1.0.1] - 2023-05-17
@@ -17,7 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Added asset workflow hook to disable the asset workflows during the installation of a content package
 
-[Unreleased]: https://github.com/orbinson/be.orbinson.aem.sdk-dev-tools/compare/1.0.2...HEAD
+[Unreleased]: https://github.com/orbinson/be.orbinson.aem.sdk-dev-tools/compare/1.0.3...HEAD
+
+[1.0.3]: https://github.com/orbinson/be.orbinson.aem.sdk-dev-tools/compare/1.0.2...1.0.3
 
 [1.0.2]: https://github.com/orbinson/be.orbinson.aem.sdk-dev-tools/compare/1.0.1...1.0.2
 
